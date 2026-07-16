@@ -35,8 +35,8 @@ def atualizar_usuario(id, data):
     dados_validados = user_schema.load(data, partial=True)
 
     if "senha" in dados_validados:
-    dados_validados["senha"] = generate_password_hash(
-        dados_validados["senha"]
+        dados_validados["senha"] = generate_password_hash(
+            dados_validados["senha"]
     )
 
     for campo, valor in dados_validados.items():
