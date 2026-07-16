@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, request
 
+from flask_jwt_extended import jwt_required
+
 from app.controllers.message_controller import (
     criar_mensagem, 
     listar_mensagens, 
@@ -17,17 +19,20 @@ def get_messages():
 
 
 @messages_bp.route("/", methods=["POST"])
+@jwt_required()
 def post_message():
     data = request.get_json()
     response, status = criar_mensagem(data)
     return jsonify(response), status
 
 @messages_bp.route("/<int:id>", methods=["PATCH"])
+@jwt_required()
 def patch_message(id):
     r, s = atualizar_mensagem(id, request.get_json())
     return jsonify(r), s
 
 @messages_bp.route("/<int:id>", methods=["DELETE"])
+@jwt_required()
 def delete_message(id):
     r, s = deletar_mensagem(id)
     return jsonify(r), s

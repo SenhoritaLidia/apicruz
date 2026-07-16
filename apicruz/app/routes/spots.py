@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, request
 
+from flask_jwt_extended import jwt_required
+
 from app.controllers.parking_controller import (
     atualizar_spot,
     criar_spot,
@@ -16,6 +18,7 @@ def get_spots():
 
 
 @spots_bp.route("/", methods=["POST"])
+@jwt_required()
 def post_spot():
     data = request.get_json()
     response, status = criar_spot(data)
@@ -23,6 +26,7 @@ def post_spot():
 
 
 @spots_bp.route("/<int:id>", methods=["PATCH"])
+@jwt_required()
 def patch_spot(id):
     response, status = atualizar_spot(id, request.get_json())
     return jsonify(response), status

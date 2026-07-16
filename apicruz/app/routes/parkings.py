@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, request
 
+from flask_jwt_extended import jwt_required
+
 from app.controllers.parking_controller import (
     criar_parking,
     listar_parkings,
@@ -16,6 +18,7 @@ def get_parkings():
 
 
 @parkings_bp.route("/", methods=["POST"])
+@jwt_required()
 def post_parking():
     data = request.get_json()
     response, status = criar_parking(data)
